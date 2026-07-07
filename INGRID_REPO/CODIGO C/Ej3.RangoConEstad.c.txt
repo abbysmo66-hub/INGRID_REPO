@@ -1,0 +1,84 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <time.h>
+#include <ctype.h>
+#include <string.h>
+#include <math.h>
+#define DIAS_SEMANA 7
+
+/// Ejercicio 03 (Desafiante) - Analizador de rango con estadísticas
+/// Una estación meteorológica registra temperaturas durante una semana (7 días). Al finalizar la carga, el
+/// sistema debe calcular y mostrar: el promedio semanal, la temperatura máxima, la temperatura mínima y
+/// la cantidad de días con temperatura por encima del promedio.
+/// Implementar una función que reciba el arreglo de temperaturas y su cantidad, y devuelva el promedio
+/// como valor de retorno. La temperatura máxima y la mínima se obtienen mediante pasaje por referencia
+/// desde la misma función. La cantidad de días sobre el promedio se calcula en una función separada. La
+/// presentación del informe final la maneja una función de solo impresión.
+
+//prototipos
+float analizarTemperaturas (float temps[], int cant,float *maxima, float *minima);
+int diasSobrePromedio (float temps[], int cant, float promedio);
+void mostrarInforme (float promedio, float maxima, float minima, int diasSobre);
+
+int main()
+{
+    float temperaturas[DIAS_SEMANA];
+    float max, min, prom;
+    int sobrePromedio;
+
+    printf("Ingrese las %d temperaturas de la semana:\n", DIAS_SEMANA);
+    for (int i=0; i<DIAS_SEMANA; i++){
+        printf ("Dia %d: ", i+1);
+        scanf("%f", &temperaturas[i]);
+    }
+    //Llamada a la funcion principal.
+    prom= analizarTemperaturas(temperaturas, DIAS_SEMANA, &max, &min);
+    //Llamada para contar dias por encima del promedio.
+    sobrePromedio= diasSobrePromedio(temperaturas,DIAS_SEMANA,prom);
+    //Impresion de los resultados.
+    mostrarInforme(prom, max,min,sobrePromedio);
+return 0;
+}
+//implementacion: calcula promedio y obtiene el maximo/minimo por referencia.
+float analizarTemperaturas(float temps[], int cant, float *maxima, float *minima)
+{
+    float suma=0;
+    *maxima= temps[0];
+    *minima= temps[0];
+    for (int i=0; i< cant; i++){
+        suma += temps[i];
+        if (temps[i]> *maxima)
+        {
+            *maxima= temps[i];
+        }
+        if (temps[i]< *minima)
+        {
+            *minima= temps[i];
+        }
+    }
+        return suma/cant;
+}
+//implementacion: cuenta cuantos dias superan el promedio
+int diasSobrePromedio(float temps[], int cant, float promedio)
+{
+    int contador=0;
+    for (int i=0; i< cant; i++)
+    {
+        if (temps[i]>promedio)
+        {
+            contador++;
+        }
+    }
+    return contador;
+}
+//implementacion: solo la impresion de datos.
+void mostrarInforme(float promedio, float maxima, float minima, int diasSobre)
+{
+    printf("\n--- Informe del Clima ----\n");
+    printf("Promedio semanal: %.2f\n", promedio);
+    printf("Temperatura maxima: %.2f\n", maxima);
+    printf("Temperatura minima: %.2f\n", minima);
+    printf ("Dias por encima del promedio: %d\n", diasSobre);
+    printf ("--------------------------------------\n");
+}

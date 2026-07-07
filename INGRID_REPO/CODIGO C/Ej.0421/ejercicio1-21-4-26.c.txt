@@ -1,0 +1,19 @@
+#include <stdio.h>
+#include <math.h>
+
+
+int main()
+{
+    int numero;
+    float resultado;
+
+    printf ("Ingrese un numero: ");
+    scanf ("%d", &numero);
+
+    resultado = sqrt(numero); //esta funcion no existe en c, se debe incluir una libreria.
+
+    printf ("El resultado es %.2f\n", resultado);
+
+    return 0;
+
+}
